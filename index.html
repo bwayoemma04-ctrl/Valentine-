@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Amaal ❤️</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff0f3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #main-screen h1 {
+            color: #ff4d6d;
+            font-size: 1.8rem;
+            padding: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .buttons {
+            margin-top: 30px;
+            position: relative;
+            width: 100vw;
+            height: 300px;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 25px 50px;
+            font-size: 1.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            transition: transform 0.2s;
+            z-index: 100;
+        }
+
+        #yesBtn:active { transform: scale(0.9); }
+
+        #noBtn {
+            background-color: #8d99ae;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            position: absolute;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.15s ease;
+            touch-action: none;
+        }
+
+        #celebration {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff;
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #celebration img {
+            width: 70%;
+            max-width: 280px;
+            border-radius: 20px;
+            border: 5px solid #ff4d6d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .heart-confetti {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            user-select: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-screen">
+        <h1>Amaal, will you be my Valentine? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">YES! 💖</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()" ontouchstart="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div id="celebration">
+        <h1 style="color: #ff4d6d;">I knew you'd say yes! 🥰</h1>
+        <img src="amaal.jpg" alt="Amaal">
+        <h2 style="color: #ff758f;">🎆 Happy Valentine's Day! 🎆</h2>
+    </div>
+
+    <audio id="bgMusic" src="music.mp3" loop></audio>
+
+    <script>
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            // Calculate random positions but keep it within screen bounds
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 100);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('main-screen').style.display = 'none';
+            document.getElementById('celebration').style.display = 'flex';
+            
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log("Music blocked by browser until interaction"));
+
+            // Create Heart Confetti
+            for(let i = 0; i < 50; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-confetti');
+            heart.innerText = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
